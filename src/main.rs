@@ -3,12 +3,61 @@ use std::{
     process::{Command, Output},
 };
 
+use args::TitleArgs;
+use clap::Parser;
+
+use crate::args::{Action, SongArgs};
+
+mod args;
+
 fn main() {
+    let args = SongArgs::parse();
+    match args.action {
+        Action::Title(title_args) => get_title(title_args),
+        Action::Artist => get_artist(),
+        Action::Toggle => play_pause(),
+        Action::Shuffle => toggle_shuffle(),
+        Action::Loop => cycle_loop(),
+        Action::Art => get_art(),
+    }
+}
+
+fn get_title(title_args: TitleArgs) {
+    if title_args.full {
+        println!(
+            "{} - {}",
+            get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
+            get_string_output(exec("playerctl --player spotify metadata xesam:artist").unwrap())
+        )
+    } else {
+        println!(
+            "{}",
+            get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
+        )
+    }
+}
+
+fn get_artist() {
     println!(
-        "{} - {}",
-        get_string_output(exec("playerctl --player spotify metadata title").unwrap()),
-        get_string_output(exec("playerctl --player spotify metadata artist").unwrap())
+        "{}",
+        get_string_output(exec("playerctl --player spotify metadata xesam:artist").unwrap())
     )
+}
+
+fn play_pause() {
+    exec("playerctl --player spotify play-pause").unwrap();
+}
+
+fn cycle_loop() {
+    todo!();
+}
+
+fn toggle_shuffle() {
+    exec("playerctl --player spotify shuffle Toggle").unwrap();
+}
+
+fn get_art() {
+    exec("playerctl --player spotify metadata mpris:artUrl").unwrap();
 }
 
 fn exec(cmd: &str) -> Result<Output, Error> {
