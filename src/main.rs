@@ -16,6 +16,8 @@ fn main() {
         Action::Title(title_args) => get_title(title_args),
         Action::Artist => get_artist(),
         Action::Toggle => play_pause(),
+        Action::Prev => play_prev(),
+        Action::Next => play_next(),
         Action::Shuffle => toggle_shuffle(),
         Action::Loop => cycle_loop(),
         Action::Art => get_art(),
@@ -46,6 +48,14 @@ fn get_artist() {
 
 fn play_pause() {
     exec("playerctl --player spotify play-pause").unwrap();
+}
+
+fn play_prev() {
+    exec("playerctl --player spotify previous").unwrap();
+}
+
+fn play_next() {
+    exec("playerctl --player spotify next").unwrap();
 }
 
 fn cycle_loop() {

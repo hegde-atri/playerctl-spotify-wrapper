@@ -15,6 +15,10 @@ pub enum Action {
     Title(TitleArgs),
     /// Artist
     Artist,
+    /// Next track,
+    Next,
+    /// Prev track
+    Prev,
     /// Play-Pause
     Toggle,
     /// Toggle shuffle
