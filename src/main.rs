@@ -49,7 +49,21 @@ fn play_pause() {
 }
 
 fn cycle_loop() {
-    todo!();
+    match get_string_output(exec("playerctl --player spotify loop").unwrap()).as_str() {
+        "None" => {
+            exec("playerctl --player spotify loop Playlist").unwrap();
+            println!("Playlist")
+        }
+        "Playlist" => {
+            exec("playerctl --player spotify loop Track").unwrap();
+            println!("Track")
+        }
+        "Track" => {
+            exec("playerctl --player spotify loop None").unwrap();
+            println!("None")
+        }
+        _ => println!(""),
+    };
 }
 
 fn toggle_shuffle() {
