@@ -81,7 +81,9 @@ fn toggle_shuffle() {
 }
 
 fn get_art() {
-    exec("playerctl --player spotify metadata mpris:artUrl").unwrap();
+    let art_url =
+        get_string_output(exec("playerctl --player spotify metadata mpris:artUrl").unwrap());
+    exec(format!("curl {} --output /tmp/playerctl_cover.png", art_url).as_str()).unwrap();
 }
 
 fn exec(cmd: &str) -> Result<Output, Error> {
