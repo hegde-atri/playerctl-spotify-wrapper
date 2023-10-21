@@ -27,14 +27,22 @@ fn main() {
 fn get_title(title_args: TitleArgs) {
     if title_args.full {
         println!(
-            "{} - {}",
-            get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
-            get_string_output(exec("playerctl --player spotify metadata xesam:artist").unwrap())
+            "{}",
+            format!(
+                "{:.25} - {:.30}",
+                get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
+                get_string_output(
+                    exec("playerctl --player spotify metadata xesam:artist").unwrap()
+                )
+            )
         )
     } else {
         println!(
             "{}",
-            get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
+            format!(
+                "{:.50}",
+                get_string_output(exec("playerctl --player spotify metadata xesam:title").unwrap()),
+            )
         )
     }
 }
